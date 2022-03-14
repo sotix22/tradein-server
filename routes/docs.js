@@ -71,7 +71,7 @@ router.post("/", function (req, res, next) {
           ) {
             setTimeout(() => {
               res.status(201).send(`public/docs/docs_${Request._id}.pdf`);
-            }, 3000);
+            }, 0);
           }
         } catch (error) {
           res.send(error);
