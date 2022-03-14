@@ -20,6 +20,9 @@ var DB = require("./database");
 var app = express();
 
 // view engine setup
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 app.use(
   bodyParser.urlencoded({
     parameterLimit: 100000,
