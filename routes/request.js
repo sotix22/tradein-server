@@ -155,7 +155,6 @@ router.post("/sync", async (req, res) => {
     fs.writeFileSync(`./public/sync/${request.RetailId}.json`, data);
     res.status(200).send(request);
   } catch (error) {
-
     res.status(500).send(error);
   }
 });
@@ -198,13 +197,11 @@ router.post("/create", async function (req, res, next) {
       Rate: Rate,
       RateRang: RateRang,
       Color: Color,
-    })
+    });
     res.status(201).send(Request);
   } catch (error) {
     res.status(500).send(error);
   }
-
-
 });
 
 router.post("/getrequestsbyini", async function (req, res, next) {
@@ -217,7 +214,6 @@ router.post("/getrequestsbyini", async function (req, res, next) {
     Request.map(async (element) => {
       var Phone = await Phones.findById({ _id: element.DeviceId });
 
-
       element.Device = Phone;
       return element;
     })
@@ -226,11 +222,16 @@ router.post("/getrequestsbyini", async function (req, res, next) {
 });
 
 router.post("/getrequestsbyid", async function (req, res, next) {
-  const { id } = req.body;
-  const Request = await Requests.findById({
-    _id: id,
-  });
-  res.status(201).send(await Request);
+  try {
+    const { id } = req.body;
+    console.log(id);
+    const Request = await Requests.findById({
+      _id: id,
+    });
+    res.status(201).send(Request);
+  } catch (e) {
+    res.status(500).send(e);
+  }
 });
 
 router.post("/getrequestsbyretail", async function (req, res, next) {
@@ -275,15 +276,15 @@ router.post("/getrequestsbyretail", async function (req, res, next) {
 router.post("/statuspending", async (req, res) => {
   const { id } = req.body;
   try {
-    let request = await Requests.findOne({ RetailId: id, Status: 0 })
+    let request = await Requests.findOne({ RetailId: id, Status: 0 });
     if (request) {
       res.status(200).send(request._id);
     } else {
       res.status(404).send("Requests status Pending not found");
     }
   } catch (error) {
-    console.log(error)
-    res.status(500).send(error)
+    console.log(error);
+    res.status(500).send(error);
   }
 });
 
